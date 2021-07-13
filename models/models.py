@@ -13,6 +13,7 @@ engine = create_engine('sqlite:///atividades.db', convert_unicode=True, echo=Tru
 #     }
 # )
 # 
+#  SEGUE O MODELO DE OCMO TEM QUE SER COMPLETADO AS INFORMAÇÕES
 # engine = create_engine("postgresql://(Usuarioaseusar):(senha)@localhost/(nome do banco)")
 
 db_session = scoped_session(sessionmaker(autocommit=False, bind=engine))
@@ -23,18 +24,10 @@ Base.query = db_session.query_property()
 '''
 Here we will have the classes and the respectives methods
 '''
+#  User
 class User(Data):
-    __tablename__ = 'user'
-    id = Column (Integer, Sequence('user_id_seq'),primary_key = True )
+    id = Column(String(11), primary_key = True)
+    
     active = Column(Boolean)
     password = Column(String(80))
     types = Column(String(50)) 
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'User',
-        'polymorphic_on': types
-    }
-
-class CommonUser(Data):
-    __tablename__ = 'common_user'
-    

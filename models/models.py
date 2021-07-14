@@ -101,8 +101,5 @@ class Ocurrence(Data):
         db_session.delete(self)
         db_session.commit()
 
-class Address(Data):
-    pass
-
 class User_Occurrence(Data):
     pass 

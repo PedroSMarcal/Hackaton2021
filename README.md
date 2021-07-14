@@ -16,3 +16,7 @@ pelo cmd e com o ambiente virtual ativado se usara o comando pip install -r requ
 logo após pode se rodar o comando python app.py:
 
 O servidor vai estar funcionando;
+
+para iniciar o banco tem que entrar e rodar o models.py semelhante a forma como se abre o serviço;
+
+Este teste.HTML é o modelo de como tem que chamar o forms para enviar a requisição no momento é só a imagem

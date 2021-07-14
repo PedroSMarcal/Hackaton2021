@@ -6,7 +6,7 @@ from routes import ImagesUpload
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = '///images'
+app.config['UPLOAD_FOLDER'] = 'static\images'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///development.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)

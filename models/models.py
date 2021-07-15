@@ -31,6 +31,8 @@ class Admin(Base):
     chapaNumber = Column(Integer, primary_key = True, unique=True)
     email = Column(String(80), unique=True)
     password = Column(String(80))
+    active = Column(Boolean(), default=True)
+    admin = relationship('Password_Forgot', backref='admin', lazy=True)
 
     def __repr__(self):
         return f'Numero de Chapa: {self.chapaNumber}, \nEmail: {self.email}, \nPassword: {self.password}'
@@ -52,8 +54,7 @@ class Citizen(Base):
     fullname = Column(String(length = 80))
     cpf = Column(String(length = 11), unique=True)
     whatsapp = Column(String(length = 11), unique=True)
-    pessoa = relationship('Citizen', backref="occurrence", lazy=True)
-    admin = relationship('admin', backref='admin', lazy=True)
+    pessoa = relationship('Occurrence', backref="occurrence_citizen", lazy=True)
 
     def __repr__(self):
         return f'Nome Completo: {self.fullname}, \nEmail: {self.email}, \nPassword: {self.password}, \nCPF: {self.cpf}, \nWhatsapp: {self.whatsapp}'
@@ -85,8 +86,8 @@ class Occurrence(Base):
     cellphone = Column(String(length = 11), unique=True)
 
     status_id = Column(Integer, ForeignKey('status.id'), nullable=True)
-    id_citizen = Column(Integer(), ForeignKey('citizen.id'))
-    occurrence_admin = Column(ForeignKey('occurrence.id'), nullable=True)
+    id_citizen = Column(Integer(), ForeignKey('citizen.id'), nullable=False)
+    occurrence_admin = Column(Integer, ForeignKey('occurrence.id'), nullable=True)
 
     occurrence_address = relationship('Address')
     occurrence_photos = relationship('Photos')
@@ -96,6 +97,7 @@ class Occurrence(Base):
 class Password_Forgot(Base):
     __tablename__ = 'password_forgot'
     id = Column(Integer, primary_key = True)
+    admin_id = Column(Integer, ForeignKey('admin.chapaNumber'), nullable=False)
     token = Column(String(length = 80))
     
     def __repr__(self):

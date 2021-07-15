@@ -1,13 +1,37 @@
 from models.models import Admin
+from validate_email import validate_email
+import hashlib
 
-def getUsers():
+def getAdmin():
     admin = Admin.query.all()
-    response = [{'name': i.name, 'chapaNumber': i.chapaNumber, 'email': i.email, 'password': i.password} for i in admin]
+    response = [{'name': i.name, 'chapaNumber': i.chapaNumber, 'email': i.email} for i in admin]
 
     return response
 
-        # __tablename__ = 'admin'
-    # name = Column(String(length = 50))
-    # chapaNumber = Column(Integer, primary_key = True, unique=True)
-    # email = Column(String(80), unique=True)
-    # password = Column(String(80))
+def constructAdmin(data):
+    print(data['password'])
+    hash_password = encrypt_string(data['password'])
+    try: 
+        is_valid = validate_email(data['email'])
+        try:
+            new_data = Admin(
+                name=data['name'], 
+                email=data['email'], 
+                chapaNumber=data['chapaNumber'],
+                password=hash_password
+            )
+            new_data.save()
+            response = {'message': 'Create with Success'}
+        except:
+            response = {'message': 'Could not create the user'}
+
+    except:
+        return {'message': 'Invalid e-mail, or already in use'}
+
+    return response
+
+
+def encrypt_string(hash_string):
+    sha_signature = \
+        hashlib.sha256(hash_string.encode()).hexdigest()
+    return sha_signature

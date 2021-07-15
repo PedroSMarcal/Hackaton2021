@@ -1,19 +1,18 @@
 from flask import request
 from flask_restful import Resource
-from utils.AdminUtils import getAdmin, constructAdmin
+from utils.CitizensUtils import getCitizen, constructUser
 
 class AdminMethods(Resource):
     def get(self):
-        return getAdmin()
+        return getCitizen()
 
     def post(self):
         data = request.json
-        response = constructAdmin(data)
-        return response
+        constructUser(data)
+        return 'teste'
 
     # def put():
     #     return ''
-
 
     # def delete():
     #     return ''

@@ -8,6 +8,7 @@ from routes.adminRoutes import AdminMethods
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
+# app.config('SECRET_KEY') = '...'
 app.config['UPLOAD_FOLDER'] = 'static/images'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///development.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

@@ -20,3 +20,14 @@ O servidor vai estar funcionando;
 para iniciar o banco tem que entrar e rodar o models.py semelhante a forma como se abre o serviço;
 
 Este teste.HTML é o modelo de como tem que chamar o forms para enviar a requisição no momento é só a imagem
+
+#conectar com postgres
+# engine = create_engine(
+#     "postgresql+pg8000://scott:tiger@localhost/test",
+#     execution_options={
+#         "isolation_level": "REPEATABLE READ"
+#     }
+# )
+# 
+# SEGUE O MODELO DE OCMO TEM QUE SER COMPLETADO AS INFORMAÇÕES
+# engine = create_engine("postgresql://(Usuarioaseusar):(senha)@localhost/(nome do banco)")

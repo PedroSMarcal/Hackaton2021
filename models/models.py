@@ -1,9 +1,7 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Boolean
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Boolean, DateTime
 from sqlalchemy.orm import scoped_session, sessionmaker,  relationship
 from sqlalchemy.ext.declarative import declarative_base
-
-
-engine = create_engine('sqlite:///atividades.db', convert_unicode=True, echo=True)
+from datetime import datetime
 
 #conectar com postgres
 # engine = create_engine(
@@ -13,8 +11,10 @@ engine = create_engine('sqlite:///atividades.db', convert_unicode=True, echo=Tru
 #     }
 # )
 # 
-#  SEGUE O MODELO DE OCMO TEM QUE SER COMPLETADO AS INFORMAÇÕES
+# SEGUE O MODELO DE OCMO TEM QUE SER COMPLETADO AS INFORMAÇÕES
 # engine = create_engine("postgresql://(Usuarioaseusar):(senha)@localhost/(nome do banco)")
+
+engine = create_engine('sqlite:///atividades.db', convert_unicode=True, echo=True)
 
 db_session = scoped_session(sessionmaker(autocommit=False, bind=engine))
 
@@ -24,20 +24,16 @@ Base.query = db_session.query_property()
 '''
 Here we will have the classes and the respectives methods
 '''
-#  User
-class CommonUser(Data):
-    __tablename__ = 'common_user'
-    id = Column(Integer, primary_key = True)
-    fullname = Column(String(80))
-    cpf = Column(String(11))
-    active = Column(Boolean)
+#  CLASS ADMIN
+class Admin(Base):
+    __tablename__ = 'admin'
+    name = Column(String(length = 50))
+    chapaNumber = Column(Integer, primary_key = True, unique=True)
+    email = Column(String(80), unique=True)
     password = Column(String(80))
-    types = Column(String(50)) 
-    whatsapp = Column(String(14))
-    email = Column(String(50))
 
     def __repr__(self):
-        return f'fullname {self.fullname} \ncpf {self.cpf} \nactive {self.active} \ntypes {self.types} \nwhatsapp {self.whatsapp} \n'
+        return f'Numero de Chapa: {self.chapaNumber}, \nEmail: {self.email}, \nPassword: {self.password}'
 
     def save(self):
         db_session.add(self)
@@ -47,16 +43,20 @@ class CommonUser(Data):
         db_session.delete(self)
         db_session.commit()
 
-class UserAdmin(Data):
-    __tablename__ = 'user_admin'
+# CLASS CITIZEN
+class Citizen(Base):
+    __tablename__ = 'citizen'
     id = Column(Integer, primary_key = True)
-    username = Column(String(40))
-    password = Column(String(80))
-    email = Column(String(50))
-    status = Column(Boolean)
+    email = Column(String(80))
+    password = Column(String(length = 80))
+    fullname = Column(String(length = 80))
+    cpf = Column(String(length = 11), unique=True)
+    whatsapp = Column(String(length = 11), unique=True)
+    pessoa = relationship('Citizen', backref="occurrence", lazy=True)
+    admin = relationship('admin', backref='admin', lazy=True)
 
     def __repr__(self):
-        return f'username {self.username} \nemail {self.email}'
+        return f'Nome Completo: {self.fullname}, \nEmail: {self.email}, \nPassword: {self.password}, \nCPF: {self.cpf}, \nWhatsapp: {self.whatsapp}'
 
     def save(self):
         db_session.add(self)
@@ -66,14 +66,40 @@ class UserAdmin(Data):
         db_session.delete(self)
         db_session.commit()
 
-class TypeOccurence(Data):
-    __tablename__ = 'type_ocurrence'
+# CLASS STATUS 
+class Status(Base):
+    __tablename__ = 'status'
     id = Column(Integer, primary_key = True)
-    types = Column(String(45))
-    description = Column(String(45), nullable=False)
+    description = Column(String(length = 60), nullable = False)
+    status = relationship('Status')
 
+# CLASS OCCURRENCE
+class Occurrence(Base):
+    __tablename__ = 'occurrence'
+    id = Column(Integer(), primary_key = True)
+    date = Column(DateTime())
+    viewed = Column(Boolean())
+    auto_number = Column(Integer())
+    obs = Column(String(length = 250), nullable = True)
+    proper = Column(String(length = 80), nullable = True)
+    cellphone = Column(String(length = 11), unique=True)
+
+    status_id = Column(Integer, ForeignKey('status.id'), nullable=True)
+    id_citizen = Column(Integer(), ForeignKey('citizen.id'))
+    occurrence_admin = Column(ForeignKey('occurrence.id'), nullable=True)
+
+    occurrence_address = relationship('Address')
+    occurrence_photos = relationship('Photos')
+    problem_type = relationship('Occurrence', backref='problem', lazy=True)
+
+# CLASS FORGOT PASSWORD
+class Password_Forgot(Base):
+    __tablename__ = 'password_forgot'
+    id = Column(Integer, primary_key = True)
+    token = Column(String(length = 80))
+    
     def __repr__(self):
-        return f'types {self.types} \ndescription {self.description}'
+        return f'token: {self.token}'
 
     def save(self):
         db_session.add(self)
@@ -83,23 +109,40 @@ class TypeOccurence(Data):
         db_session.delete(self)
         db_session.commit()
 
-class Ocurrence(Data):
-    __tablename__ = 'ocurrence'
-    ocurrence_number = Column(Integer, primary_key = True)
-    referenced_points = Column(String(45))
-    notes = Column(String(80), nullable = False)
-    status = Column(Boolean)
+# CLASS FORGOT PASSWORD
+class ProblemTypes(Base):
+    __tablename__ = 'problem_types'
+    id = Column(Integer, primary_key=True)
+    description = Column(String(length = 45))
+    occurrence = relationship('Occurrence', backref='problem', lazy=True)
 
-    def __repr__(self):
-        return f'ocurrence_number {self.ocurrence_number} \nreferenced_points {self.referenced_points} \nnotes {self.Notes} \nstatus {self.status}'
+# CLASS FORGOT PASSWORD
+class OccurrenceceAdmin(Base):
+    __tablename__ = 'occorrurence_admin'
+    id = Column(Integer(), primary_key = True)
+    occurrence_id = Column(Integer, ForeignKey('occurrence.id'))
+    admin_chapanumber = Column(Integer, ForeignKey('admin.chapaNumber'))
 
-    def save(self):
-        db_session.add(self)
-        db_session.commit()
+# CLASS Address
+class Address(Base):
+    __tablename__ = 'address'
+    id = Column(Integer(), primary_key = True)
+    number = Column(String(length = 4))
+    street = Column(String(length = 80))
+    neighborhood = Column(String(length = 80))
+    cep = Column(String(length = 80))
+    occurrence_id = Column(Integer, ForeignKey('occurrence.id'))
+    
+# CLASS Photos
+class Photos(Base):
+    __tablename__ = 'occurrence_photo'
+    id = Column(Integer(), primary_key = True)
+    name = Column(String(length = 125))
+    occurrence_id = Column(Integer, ForeignKey('occurrence.id'), nullable = False)
 
-    def delete(self):
-        db_session.delete(self)
-        db_session.commit()
+    
+def init_db():
+    Base.metadata.create_all(bind=engine)
 
-class User_Occurrence(Data):
-    pass 
+if __name__ == "__main__":
+    init_db()    

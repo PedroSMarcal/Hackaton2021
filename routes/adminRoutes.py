@@ -1,6 +1,6 @@
 from flask import request
 from flask_restful import Resource
-from utils.AdminUtils import getAdmin, getespecificAdmin, constructAdmin
+from utils.AdminUtils import getAdmin, deleteAdmin, getespecificAdmin, constructAdmin, emailSendValued
 
 class AdminMethods(Resource):
     def get(self):
@@ -9,6 +9,7 @@ class AdminMethods(Resource):
     def post(self):
         data = request.json
         response = constructAdmin(data)
+        # teste = emailSendValued(data['email'])
         return response
 
 class AdminMethodsPa(Resource):
@@ -18,12 +19,12 @@ class AdminMethodsPa(Resource):
 
     def delete(self, id):
         id = int(id)
-        print(id)
         try:
-            data = getespecificAdmin(id)
+            data = deleteAdmin(id)
             data.delete()
             response = {'message': 'deleted was success'}
         except:
-            response = {'message': 'could not find the User'}    
+            response = {'message': 'could not complete the delete'}    
         return response
+    
     

@@ -2,6 +2,7 @@ from models.models import Admin
 from validate_email import validate_email
 import hashlib
 
+
 def getAdmin():
     admin = Admin.query.all()
     response = [{'name': i.name, 'chapaNumber': i.chapaNumber, 'email': i.email, 'id': i.id} for i in admin if i.active == True]
@@ -15,8 +16,17 @@ def getespecificAdmin(id):
     else:
         return {'mensagem': 'Do not find any user'}
 
+def deleteAdmin(id):
+    try:
+        admin = Admin.query.filter_by(id=id).first()
+        response = admin
+    except:
+        response = {'message': 'could not find the user'}
+    
+    return response
+
+
 def constructAdmin(data):
-    print(data['password'])
     hash_password = encrypt_string(data['password'])
     try: 
         is_valid = validate_email(data['email'])
@@ -24,7 +34,6 @@ def constructAdmin(data):
             new_data = Admin(
                 name=data['name'], 
                 email=data['email'], 
-                chapaNumber=data['chapaNumber'],
                 password=hash_password
             )
             new_data.save()
@@ -41,3 +50,10 @@ def encrypt_string(hash_string):
     sha_signature = \
         hashlib.sha256(hash_string.encode()).hexdigest()
     return sha_signature
+
+def emailSendValued(email):
+    msg = Message("Hello", 
+                sender="privadopedro849@gmail.com",
+                recipients = [email])
+    mail.send(msg)
+    return 'Messge Sent '

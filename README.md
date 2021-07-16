@@ -31,3 +31,15 @@ Este teste.HTML é o modelo de como tem que chamar o forms para enviar a requisi
 # 
 # SEGUE O MODELO DE OCMO TEM QUE SER COMPLETADO AS INFORMAÇÕES
 # engine = create_engine("postgresql://(Usuarioaseusar):(senha)@localhost/(nome do banco)")
+
+
+-------------------------------------------
+ROTA PARA O ADMIN CREATE localhost://5000/admin
+
+Formato Json 
+ele vai criar com estes parametros, exemplo de como mandar para o back-end
+{
+    "name": "Pedro Henrique Silva Marçal",
+    "email": "pedro.h.silva.marcal@gmail.com",
+    "password": "TESTE"
+}

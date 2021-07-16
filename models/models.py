@@ -17,7 +17,7 @@ class Admin(Base):
     name = Column(String(length = 50))
     email = Column(String(80), unique=True)
     password = Column(String(80))
-    active = Column(Boolean(True), default=True)
+    active = Column(Boolean(), default=False)
     admin_password = relationship('Password_Forgot', backref='passwordAdmin', lazy=True)
     admin_occurrence = relationship('Occurrence', backref='occurrenceAdmin', lazy=True)
 
@@ -29,7 +29,8 @@ class Admin(Base):
         db_session.commit()
 
     def delete(self):
-        db_session.add(active)
+        self.active = False
+        db_session.add(self)
         db_session.commit()
 
 #####################################################
@@ -41,7 +42,7 @@ class Citizen(Base):
     fullname = Column(String(length = 80))
     cpf = Column(String(length = 11), unique=True)
     whatsapp = Column(String(length = 11), unique=True)
-    active = Column(Boolean(), default=True)
+    active = Column(Boolean(), default=False)
     pessoa = relationship('Password_Forgot', backref="citizenPassword", lazy=True)
 
     def __repr__(self):
@@ -52,7 +53,8 @@ class Citizen(Base):
         db_session.commit()
 
     def delete(self):
-        db_session.delete(self)
+        self.active = False
+        db_session.add(self)
         db_session.commit()
 
 ##################################################### 

@@ -12,8 +12,9 @@ Base.query = db_session.query_property()
 #####################################################
 class Admin(Base):
     __tablename__ = 'admin'
+    id = Column(Integer, primary_key = True)
+    chapaNumber = Column(Integer, nullable = True)
     name = Column(String(length = 50))
-    chapaNumber = Column(Integer, primary_key = True, unique=True, nullable=True)
     email = Column(String(80), unique=True)
     password = Column(String(80))
     active = Column(Boolean(True), default=True)
@@ -28,7 +29,7 @@ class Admin(Base):
         db_session.commit()
 
     def delete(self):
-        db_session.delete(self)
+        db_session.add(active)
         db_session.commit()
 
 #####################################################
@@ -59,7 +60,7 @@ class Password_Forgot(Base):
     __tablename__ = 'password_forgot'
     id = Column(Integer, primary_key = True)
     citizen_id = Column(Integer(), ForeignKey('citizen.id'), nullable=True)
-    admin_id = Column(Integer(), ForeignKey('admin.chapaNumber'), nullable=True)
+    admin_id = Column(Integer(), ForeignKey('admin.id'), nullable=True)
     token = Column(String(length = 80))
     active = Column(Boolean(), default=True)
     
@@ -88,7 +89,7 @@ class Occurrence(Base):
 
 
     occurrence_status = Column(Integer(), ForeignKey('status.id'), nullable=False)
-    admin_id = Column(Integer(), ForeignKey('admin.chapaNumber'), nullable=False)
+    admin_id = Column(Integer(), ForeignKey('admin.id'), nullable=False)
 
     problemtype = relationship('ProblemTypes', backref='problem', lazy=True)
     occurrence_address = relationship('Address', backref='status', lazy=True)

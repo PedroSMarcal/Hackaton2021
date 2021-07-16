@@ -1,6 +1,6 @@
 from flask import request
 from flask_restful import Resource
-from utils.AdminUtils import getAdmin, constructAdmin
+from utils.AdminUtils import getAdmin, getespecificAdmin, constructAdmin
 
 class AdminMethods(Resource):
     def get(self):
@@ -11,10 +11,19 @@ class AdminMethods(Resource):
         response = constructAdmin(data)
         return response
 
-    # def put():
-    #     return ''
+class AdminMethodsPa(Resource):
+    def get(self, id):
+        response = getespecificAdmin(id)
+        return response
 
-
-    # def delete():
-    #     return ''
+    def delete(self, id):
+        id = int(id)
+        print(id)
+        try:
+            data = getespecificAdmin(id)
+            data.delete()
+            response = {'message': 'deleted was success'}
+        except:
+            response = {'message': 'could not find the User'}    
+        return response
     

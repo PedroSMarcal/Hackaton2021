@@ -4,9 +4,16 @@ import hashlib
 
 def getAdmin():
     admin = Admin.query.all()
-    response = [{'name': i.name, 'chapaNumber': i.chapaNumber, 'email': i.email} for i in admin]
+    response = [{'name': i.name, 'chapaNumber': i.chapaNumber, 'email': i.email, 'id': i.id} for i in admin if i.active == True]
 
     return response
+
+def getespecificAdmin(id):
+    admin = Admin.query.filter_by(id=id).first()
+    if admin.active == True:
+        return {'name': admin.name, 'chapaNumber': admin.chapaNumber, 'email': admin.email}
+    else:
+        return {'mensagem': 'Do not find any user'}
 
 def constructAdmin(data):
     print(data['password'])
@@ -29,7 +36,6 @@ def constructAdmin(data):
         return {'message': 'Invalid e-mail, or already in use'}
 
     return response
-
 
 def encrypt_string(hash_string):
     sha_signature = \

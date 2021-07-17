@@ -1,6 +1,8 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Boolean, DateTime
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Boolean, Date
 from sqlalchemy.orm import scoped_session, sessionmaker,  relationship
 from sqlalchemy.ext.declarative import declarative_base
+import datetime
+# from app import lm
 
 engine = create_engine('sqlite:///atividades.db', convert_unicode=True, echo=True)
 
@@ -20,6 +22,24 @@ class Admin(Base):
     active = Column(Boolean(), default=False)
     admin_password = relationship('Password_Forgot', backref='passwordAdmin', lazy=True)
     admin_occurrence = relationship('Occurrence', backref='occurrenceAdmin', lazy=True)
+
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return False
+    
+    @property
+    def is_anonymous(self):
+        return True
+
+    def load_user(id):
+        return Admin.query.filter_by(id=id).first()
+
+    def get_id(self):
+        return str(self.id)
 
     def __repr__(self):
         return f'Numero de Chapa: {self.chapaNumber}, \nEmail: {self.email}, \nPassword: {self.password}'
@@ -43,7 +63,23 @@ class Citizen(Base):
     cpf = Column(String(length = 11), unique=True)
     whatsapp = Column(String(length = 11), unique=True)
     active = Column(Boolean(), default=False)
-    pessoa = relationship('Password_Forgot', backref="citizenPassword", lazy=True)
+    passwordforgot = relationship('Password_Forgot', backref="citizenPassword", lazy=True)
+
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return False
+    
+    @property
+    def is_anonymous(self):
+        return True
+    
+    def get_id(self):
+        return str(self.id)
+
 
     def __repr__(self):
         return f'Nome Completo: {self.fullname}, \nEmail: {self.email}, \nPassword: {self.password}, \nCPF: {self.cpf}, \nWhatsapp: {self.whatsapp}'
@@ -81,9 +117,9 @@ class Password_Forgot(Base):
 class Occurrence(Base):
     __tablename__ = 'occurrence'
     id = Column(Integer(), primary_key = True)
-    date = Column(DateTime())
-    viewed = Column(Boolean())
-    auto_number = Column(Integer())
+    date = Column(Date())
+    viewed = Column(Boolean(), default = False)
+    auto_number = Column(Integer(), nullable = True)
     obs = Column(String(length = 250), nullable = True)
     proper = Column(String(length = 80), nullable = True)
     cellphone = Column(String(length = 11), unique=True)

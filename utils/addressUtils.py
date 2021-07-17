@@ -18,14 +18,14 @@ def getEspecificAddress(id):
 
 def constructAddress(data):
     try:
-        data = Address(
+        new_data = Address({
             'number': data['number'],
             'street': data['street'],
             'neighborhood': data['neighborhood'],
-            'cep': data['cep']
+            'cep': data['cep'],
             'occurrence_id': data['occurrence_id']
-        )
-        data.save()
+        })
+        new_data.save()
         response = {'message': 'address created success'}
     except:
         response = {'message': 'addres canot be create'}

@@ -76,3 +76,17 @@ ROTA PARA O PROBLEM TYPES POST/GET, GET/DELETE (Parametros) localhost://problem/
     "description": "Registro Numero da Ocorrencia"
 }
 Obs: semelhante ao de cima
+
+ROTA PARA O OCURRENCE POST/GET, GET/DELETE/PUT (Parametros) localhost://occurrence/
+
+{
+    "date": "2021/03/01", 
+    "obs": "varia do caso", 
+    "proper": "varia pela ocorrencia", 
+    "cellphone": 16993933505, 
+    "occurrence_status": 1,
+    "admin_id": 1,
+    "occurrenceType": 1
+}
+
+Obs: semelhante ao de cima

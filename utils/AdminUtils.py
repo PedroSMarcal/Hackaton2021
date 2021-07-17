@@ -4,12 +4,13 @@ import hashlib
 
 def getAdmin():
     admin = Admin.query.all()
-    response = [{'name': i.name, 'chapaNumber': i.chapaNumber, 'email': i.email, 'id': i.id} for i in admin if i.active == True]
+    response = [{'name': i.name, 'chapaNumber': i.chapaNumber, 'email': i.email, 'id': i.id} for i in admin if i.active == False]
 
     return response
 
 def getespecificAdmin(id):
     try:
+        Admin.load_user(id)
         admin = Admin.query.filter_by(id=id).first()
         if admin.active == True:
             response = {'name': admin.name, 'chapaNumber': admin.chapaNumber, 'email': admin.email}

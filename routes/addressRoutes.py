@@ -1,12 +1,12 @@
 from flask import request
 from flask_restful import Resource
-from utils.addressUtils import getEspecificAddress, getAll
+from utils.addressUtils import getEspecificAddress, getAll, constructAddress
 
 class AddressMethds(Resource):
-    def get():
+    def get(self):
         return getAll()
 
-    def post():
+    def post(self):
         data = request.json
         try:
             response = constructAddress(data)
@@ -15,9 +15,9 @@ class AddressMethds(Resource):
         return response
         
 class AddresMethodsPa(Resource):
-    def get(id):
+    def get(self, id):
         try:
-            response = getEspecificAddress()
+            response = getEspecificAddress(id)
         except:
             response = {'message': 'address do not exists'}
         return response

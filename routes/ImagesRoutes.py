@@ -1,12 +1,14 @@
 from flask import request
 from flask_restful import Resource
 from werkzeug.utils import secure_filename
+from utils.ImagesUtils import contructImages
 
 class ImagesUpload(Resource):
-    def post(f):
+    def post(self):
+        data = request.json
         f = request.files['file']
-        f.save(secure_filename(f.filename))
-        return {'message': 'the file was update with success'}
+        response = contructImages(f, data)
+        return response
 
-    def get():
+    def get(self):
         pass

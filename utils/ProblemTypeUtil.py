@@ -1,33 +1,33 @@
-from models.models import Status
+from models.models import ProblemTypes
 
-def getAllStatus():
+def getAllProblemTypes():
     try:
-        status = Status.query.all()
-        response = [{'id': i.id, 'description': i.description} for i in status]
+        problem = ProblemTypes.query.all()
+        response = [{'id': i.id, 'description': i.description} for i in problem]
     except:
         reponse = {'message': 'don not exist any status to occurrence'}
     return response
 
-def getSpecificStatus(id):
+def getSpecificProblemTypes(id):
     try:
-        status = Status.query.filter_by(id=id).first()
-        response = {'description': status.description}
+        problem = ProblemTypes.query.filter_by(id=id).first()
+        response = {'description': problem.description}
     except:
         response = {'message', 'could not find the status'}
     return response
 
-def deleteStatus(id):
+def deleteProblemTypes(id):
     try:
-        status = Status.query.filter_by(id=id).first()
-        status.delete()
+        problem = ProblemTypes.query.filter_by(id=id).first()
+        problem.delete()
         response = {'message': 'deleted with success'}
     except:
         response = {'message': 'could not find the status'}
     return response
 
-def constructStatus(data):
+def constructProblemTypes(data):
     try:
-        new_data = Status(
+        new_data = ProblemTypes(
             description = data['description']
         )
         new_data.save()

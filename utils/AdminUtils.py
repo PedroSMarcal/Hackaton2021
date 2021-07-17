@@ -2,7 +2,6 @@ from models.models import Admin
 from validate_email import validate_email
 import hashlib
 
-
 def getAdmin():
     admin = Admin.query.all()
     response = [{'name': i.name, 'chapaNumber': i.chapaNumber, 'email': i.email, 'id': i.id} for i in admin if i.active == True]
@@ -10,11 +9,15 @@ def getAdmin():
     return response
 
 def getespecificAdmin(id):
-    admin = Admin.query.filter_by(id=id).first()
-    if admin.active == True:
-        return {'name': admin.name, 'chapaNumber': admin.chapaNumber, 'email': admin.email}
-    else:
-        return {'mensagem': 'Do not find any user'}
+    try:
+        admin = Admin.query.filter_by(id=id).first()
+        if admin.active == True:
+            response = {'name': admin.name, 'chapaNumber': admin.chapaNumber, 'email': admin.email}
+        else:
+            response = {'mensagem': 'Do not find any user'}
+    except:
+        response = {'message': 'find the user'}
+    return response
 
 def deleteAdmin(id):
     try:

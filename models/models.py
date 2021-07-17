@@ -113,7 +113,7 @@ class ProblemTypes(Base):
     __tablename__ = 'problem_types'
     id = Column(Integer, primary_key=True)
     description = Column(String(length = 45))
-    occurrenceType = Column(Integer(), ForeignKey('occurrence.id'), nullable=False)
+    occurrenceType = Column(Integer(), ForeignKey('occurrence.id'), nullable=True)
 
     def __repr__(self):
         return f'description: {self.description}, occurrenceType: {self.occurrenceType}'

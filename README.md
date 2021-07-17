@@ -2,16 +2,27 @@ para rodar esta aplicação local, primeiro deve se ter o python instalado;
 
 Após instalar o python que provavel de estar na versão 3.9.6
 
-usa se o comando pip install virtualenv
+usa se o comando 
+--pip install virtualenv
 
-Vá para a pasta que terá o a API pelo cmd e utilize o comando virtualelv (nome qualquer de arquivo, eu uso ven);
+Vá para a pasta que terá o a API pelo cmd e utilize o comando 
+--virtualelv (nome qualquer de arquivo, eu uso ven);
 
-após isso deve-se ativar este ambiente virtual para isolar as dependencias, vá até a pasta_criada\Scripts\activate
+após isso deve-se ativar este ambiente virtual para isolar as dependencias, vá até a 
+--pasta_criada\Scripts\activate
 
 (ven) C:\Users\Cliente\Desktop\hackton> 
 No meu caso fica entre colchetes desta forma, no arquivo inicial tem um documento requirements.txt
 
-pelo cmd e com o ambiente virtual ativado se usara o comando pip install -r requirements.txt
+pelo cmd e com o ambiente virtual ativado se usara o comando 
+--pip install -r requirements.txt
+
+entrar na pasta models e rodar o comando:
+--python models.py
+
+mover o banco em arquivo criado para a pasta geral;
+
+após isso voltar para a pasta geral
 
 logo após pode se rodar o comando python app.py:
 
@@ -43,3 +54,25 @@ ele vai criar com estes parametros, exemplo de como mandar para o back-end
     "email": "pedro.h.silva.marcal@gmail.com",
     "password": "TESTE"
 }
+
+ROTA PARA O CITIZEN POST/GET, GET/DELETE/PUT localhost://5000/citizen/
+envia da seguinte maneira 
+{
+    "fullname": "Pedro Henrique Silva Marçal",
+    "email": "pedro.h.silva.marcal361@gmail.com",
+    "password": "Why",
+    "cpf": "11122233344",
+    "whatsapp": "16993933505"
+}
+
+ROTA PARA OS STATUS POST/GET, GET/DELETE (Parametros) localhost://status/
+{
+    "description": "Registro Numero da Ocorrencia"
+}
+
+ROTA PARA O PROBLEM TYPES POST/GET, GET/DELETE (Parametros) localhost://problem/
+
+{
+    "description": "Registro Numero da Ocorrencia"
+}
+Obs: semelhante ao de cima

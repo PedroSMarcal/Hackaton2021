@@ -1,24 +1,24 @@
 from flask import request
 from flask_restful import Resource
-from utils.StatusUtils import getAllStatus, constructStatus, deleteStatus, getSpecificStatus, deleteStatus
+from utils.ProblemTypeUtil import getAllProblemTypes, deleteProblemTypes, getSpecificProblemTypes, constructProblemTypes
 
-class StatusMethods(Resource):
+class ProblemTypesMethods(Resource):
     def get(self):
-        return getAllStatus()
+        return getAllProblemTypes()
 
     def post(self):
         data = request.json
-        response = constructStatus(data)
+        response = constructProblemTypes(data)
         return response
 
-class StatusMethodsPa(Resource):
+class ProblemTypesMethodsPa(Resource):
     def get(self, id):
-        response = getSpecificStatus(id)
+        response = getSpecificProblemTypes(id)
         return response
 
     def delete(self, id):
         try:
-            status = deleteStatus(id)
+            status = deleteProblemTypes(id)
             response = status
         except:
             response = {'message': 'could not delete the status'}

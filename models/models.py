@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Boolean, Date
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Boolean, Date, Float
 from sqlalchemy.orm import scoped_session, sessionmaker,  relationship
 from sqlalchemy.ext.declarative import declarative_base
 import datetime
@@ -21,7 +21,6 @@ class Admin(Base):
     password = Column(String(80))
     active = Column(Boolean(), default=False)
     admin_password = relationship('Password_Forgot', backref='passwordAdmin', lazy=True)
-    admin_occurrence = relationship('Occurrence', backref='occurrenceAdmin', lazy=True)
 
     # @property
     # def is_authenticated(self):
@@ -63,22 +62,23 @@ class Citizen(Base):
     cpf = Column(String(length = 11), unique=True)
     whatsapp = Column(String(length = 11), unique=True)
     active = Column(Boolean(), default=False)
+    citizenOccurrence = relationship('Occurrence', backref="citizenOcurrence")
     passwordforgot = relationship('Password_Forgot', backref="citizenPassword", lazy=True)
 
-    @property
-    def is_authenticated(self):
-        return True
+    # @property
+    # def is_authenticated(self):
+    #     return True
 
-    @property
-    def is_active(self):
-        return False
+    # @property
+    # def is_active(self):
+    #     return False
     
-    @property
-    def is_anonymous(self):
-        return True
+    # @property
+    # def is_anonymous(self):
+    #     return True
     
-    def get_id(self):
-        return str(self.id)
+    # def get_id(self):
+    #     return str(self.id)
 
 
     def __repr__(self):
@@ -117,7 +117,8 @@ class Password_Forgot(Base):
 class Occurrence(Base):
     __tablename__ = 'occurrence'
     id = Column(Integer(), primary_key = True)
-    date = Column(String(length = 20), primary_key = True)
+    date = Column(String(length = 10))
+    hour = Column(String(length = 5))
     viewed = Column(Boolean(), default = False)
     auto_number = Column(Integer(), nullable = True)
     obs = Column(String(length = 250), nullable = True)
@@ -128,11 +129,12 @@ class Occurrence(Base):
     street = Column(String(length = 80), nullable=False)
     latitude = Column(Float(), nullable=True)
     longitude = Column(Float(), nullable=True)
+    occurrenceNumber = Column(String(length = 9), nullable = False)
 
     occurrenceType = Column(Integer(), ForeignKey('problem_types.id'), nullable=True)
     occurrence_status = Column(Integer(), ForeignKey('status.id'), nullable=False)
-    admin_id = Column(Integer(), ForeignKey('admin.id'), nullable=False)
-
+    citizen_id = Column(Integer(), ForeignKey('citizen.id'), nullable=False)
+    
     occurrence_photos = relationship('Photos', backref='photos', lazy=True)
 
     def __repr__(self):
@@ -175,27 +177,6 @@ class Status(Base):
 
     def __repr__(self):
         return f'description: {self.description}, occurrence_status: {self.occurrence_status}'
-
-    def save(self):
-        db_session.add(self)
-        db_session.commit()
-
-    def delete(self):
-        db_session.delete(self)
-        db_session.commit()
-
-##################################################### 
-class Address(Base):
-    __tablename__ = 'address'
-    id = Column(Integer(), primary_key = True)
-    number = Column(String(length = 4), nullable=False)
-    street = Column(String(length = 80), nullable=False)
-    neighborhood = Column(String(length = 80), nullable=False)
-    cep = Column(String(length = 80), nullable=False)
-    occurrence_id = Column(Integer, ForeignKey('occurrence.id'), nullable = False)
-
-    def __repr__(self):
-        return f'number: {self.number}, street: {self.street}, neighborhood: {self.neighborhood}, cep: {self.cep}, occurrence_alto: {self.occurrence_id.auto_number}'
 
     def save(self):
         db_session.add(self)

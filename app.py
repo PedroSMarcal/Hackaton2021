@@ -10,7 +10,6 @@ from routes.statusRoute import StatusMethods, StatusMethodsPa
 from routes.problemTypeRoute import ProblemTypesMethods, ProblemTypesMethodsPa
 from routes.passwordForgotRoutes import PasswordForgotMethods, PasswordForgotMethodsPa
 from routes.citizensRoutes import CitizenMethods, CitizenMethodsPa
-from routes.addressRoutes import AddresMethodsPa, AddressMethds
 from routes.occurrenceRoutes import OccurrenceMethods, OccurrenceMethodsPa
 
 # from routes.loginRoutes import LoginAdmin, LoginCitizen, LogoutUser
@@ -91,10 +90,6 @@ api.add_resource(ProblemTypesMethodsPa, '/problem/<string:id>')
 #------------FORGOT PASSWORD------
 api.add_resource(PasswordForgotMethods, '/password')
 api.add_resource(PasswordForgotMethodsPa, '/password/<string:id>')
-
-#-----------ADDRESS----------------
-api.add_resource(AddressMethds, '/address')
-api.add_resource(AddresMethodsPa, '/address/<string:id>')
 
 #-----------OCURRENCE---------------
 api.add_resource(OccurrenceMethods, '/occurrence')

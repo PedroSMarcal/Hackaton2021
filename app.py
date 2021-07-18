@@ -73,6 +73,10 @@ class LoginCitizen(Resource):
         else:
             return {'message': 'conot log in'}
 
+class Logout(Resource):
+    def get(self):
+        session.pop('user_id', None)
+
 class profile(Resource):
     def get(self):
         if not g.user:
@@ -117,6 +121,7 @@ api.add_resource(OccurrenceMethodsPa, '/occurrence/<string:id>')
 
 # -----------LOGIN------------------
 api.add_resource(LoginAdmin, '/loginadmin')
+api.add_resource(Logout, '/logout')
 
 if __name__ == '__main__':
     app.run(debug=True)
@@ -124,5 +129,4 @@ if __name__ == '__main__':
 
 # api.add_resource(LoginAdmin, '/loginadmin')
 # api.add_resource(LoginCitizen, '/logincitizen')
-# api.add_resource(LogoutUser, '/logout')
 

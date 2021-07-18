@@ -23,8 +23,8 @@ def emailsend():
     <body>
         <p>Hi,<br>
         How are you?<br>
-        <a href="http://www.realpython.com">Real Python</a> 
-        has many great tutorials.
+        <a href="localhost://validateEmail">Real Python</a> 
+        validar email!
         </p>
     </body>
     </html>

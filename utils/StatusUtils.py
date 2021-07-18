@@ -1,13 +1,15 @@
 from models.models import Status
+from flask import session, g
 
 def getAllStatus():
-    if 'username' in session:
+    if not g.user:
         try:
             status = Status.query.all()
             response = [{'id': i.id, 'description': i.description} for i in status]
         except:
             response = {'message': 'don not exist any status to occurrence'}
         return response
+        return {'message': 'try to login'}
 
 def getSpecificStatus(id):
     try:

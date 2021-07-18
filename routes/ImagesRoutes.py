@@ -2,7 +2,7 @@ from flask import request
 import os
 from flask_restful import Resource
 from werkzeug.utils import secure_filename
-from utils.ImagesUtils import contructImages
+from utils.ImagesUtils import contructImages, getImages
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -27,7 +27,8 @@ class ImagesUpload(Resource):
 
 class ImagesUploadPa(Resource):
     def get(self, id):
-        pass
+        return getImages(id)
+        
 
         # get the last occurrence
         #obj = session.query(ObjectRes).order_by(ObjectRes.id.desc()).first()

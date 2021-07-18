@@ -23,23 +23,23 @@ class Admin(Base):
     admin_password = relationship('Password_Forgot', backref='passwordAdmin', lazy=True)
     admin_occurrence = relationship('Occurrence', backref='occurrenceAdmin', lazy=True)
 
-    @property
-    def is_authenticated(self):
-        return True
+    # @property
+    # def is_authenticated(self):
+    #     return True
 
-    @property
-    def is_active(self):
-        return False
+    # @property
+    # def is_active(self):
+    #     return False
     
-    @property
-    def is_anonymous(self):
-        return True
+    # @property
+    # def is_anonymous(self):
+    #     return True
 
-    def load_user(id):
-        return Admin.query.filter_by(id=id).first()
+    # def load_user(id):
+    #     return Admin.query.filter_by(id=id).first()
 
-    def get_id(self):
-        return str(self.id)
+    # def get_id(self):
+    #     return str(self.id)
 
     def __repr__(self):
         return f'Numero de Chapa: {self.chapaNumber}, \nEmail: {self.email}, \nPassword: {self.password}'
@@ -117,20 +117,22 @@ class Password_Forgot(Base):
 class Occurrence(Base):
     __tablename__ = 'occurrence'
     id = Column(Integer(), primary_key = True)
-    date = Column(Date())
+    date = Column(String(length = 20), primary_key = True)
     viewed = Column(Boolean(), default = False)
     auto_number = Column(Integer(), nullable = True)
     obs = Column(String(length = 250), nullable = True)
     proper = Column(String(length = 80), nullable = True)
-    cellphone = Column(String(length = 11), unique=True)
+    cellphone = Column(String(length = 11), unique = True)
     active = Column(Boolean(), default=True)
+    number = Column(String(length = 4), nullable=False)
+    street = Column(String(length = 80), nullable=False)
+    latitude = Column(Float(), nullable=True)
+    longitude = Column(Float(), nullable=True)
 
-
+    occurrenceType = Column(Integer(), ForeignKey('problem_types.id'), nullable=True)
     occurrence_status = Column(Integer(), ForeignKey('status.id'), nullable=False)
     admin_id = Column(Integer(), ForeignKey('admin.id'), nullable=False)
 
-    problemtype = relationship('ProblemTypes', backref='problem', lazy=True)
-    occurrence_address = relationship('Address', backref='status', lazy=True)
     occurrence_photos = relationship('Photos', backref='photos', lazy=True)
 
     def __repr__(self):
@@ -149,7 +151,9 @@ class ProblemTypes(Base):
     __tablename__ = 'problem_types'
     id = Column(Integer, primary_key=True)
     description = Column(String(length = 45))
-    occurrenceType = Column(Integer(), ForeignKey('occurrence.id'), nullable=True)
+    problemtype = relationship('Occurrence', backref='problem', lazy=True)
+
+
 
     def __repr__(self):
         return f'description: {self.description}, occurrenceType: {self.occurrenceType}'

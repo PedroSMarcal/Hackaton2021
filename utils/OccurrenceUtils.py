@@ -21,8 +21,8 @@ def getEspecificOccurrence(id):
             'obs': occurrence.obs, 
             'proper': occurrence.proper, 
             'cellphone': occurrence.cellphone, 
-            'occurrence_status': occurrence.occurrence_status,
-            'admin_id': occurrence.admin_id
+            'status_ocorrence': occurrence.occurrence_status,
+            'passwordAdmin': occurrence.admin_id
         }
 
     except:
@@ -34,17 +34,17 @@ def constructOccurrence(data):
         # if data['occurrence_status'] == 0 or data['occurrence_status'] == 2:
         #     pass
 
-        new_date = data['date']
-        date = datetime.date(new_date)
-        occurrence = {
-            'date': new_date, 
-            'obs': data['obs'], 
-            'proper': data['proper'], 
-            'cellphone': data['cellphone'], 
-            'occurrence_status': data['occurrence_status'],
-            'admin_id': data['admin_id'],
-            'occurrenceType': data['occurrenceType']
-        }
+        # new_date = data['date']
+        # date = datetime.date(date)
+        occurrence = Occurrence(
+            date = data['date'], 
+            obs = data['obs'], 
+            proper = data['proper'], 
+            cellphone = data['cellphone'], 
+            status_ocorrence = data['occurrence_status'],
+            admin_id = data['admin_id'],
+            occurrenceType = data['occurrenceType']
+        )
         occurrence.save()
         response = {'message': 'created with success'}
     except:
@@ -78,7 +78,7 @@ def deleteOccurrence(id):
         response = {'message': 'canot delete the occurrence'}
     return response
 
-    #     id = Column(Integer(), primary_key = True)
+    # id = Column(Integer(), primary_key = True)
     # date = Column(DateTime())
     # viewed = Column(Boolean(), default=False)
     # auto_number = Column(Integer(), nullable=True)

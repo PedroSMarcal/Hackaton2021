@@ -1,5 +1,4 @@
 from models.models import Status
-import session
 
 def getAllStatus():
     if 'username' in session:

@@ -129,7 +129,7 @@ class Occurrence(Base):
     street = Column(String(length = 80), nullable=False)
     latitude = Column(Float(), nullable=True)
     longitude = Column(Float(), nullable=True)
-    occurrenceNumber = Column(String(length = 9), nullable = False)
+    occurrenceNumber = Column(String(length = 9), nullable = True)
 
     occurrenceType = Column(Integer(), ForeignKey('problem_types.id'), nullable=True)
     occurrence_status = Column(Integer(), ForeignKey('status.id'), nullable=False)

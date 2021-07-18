@@ -3,6 +3,7 @@ from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 import os
 from models.models import Admin, Citizen
+import hashlib
 
 from routes.ImagesRoutes import ImagesUpload, ImagesUploadPa
 from routes.adminRoutes import AdminMethods, AdminMethodsPa
@@ -33,21 +34,22 @@ db = SQLAlchemy(app)
 @app.before_request
 def before_request():
     g.user = None
-
-    if 'user_id' in session:
-        admin = Admin.query.all()
-        if session['user_id'] in admin:
-            user = admin.id
-        g.user = user
-
+    try:
+        if 'user_id' in session:
+            admin = Admin.query.filter_by(id=session['user_id']).first()
+            if session['user_id'] in admin:
+                user = admin.id
+            g.user = user
+    except:
+        return {'message': 'could not try'}
 class LoginAdmin(Resource):
     def post(self):
         session.pop('user_id', None)
 
         data = request.json
         
-        admin = Admin.query.filter_by(email=email).first()
-        if admin and user1.password == encrypt_string(password):
+        admin = Admin.query.filter_by(email=data['email']).first()
+        if admin and admin.password == encrypt_string(data['']):
             session['user_id'] = admin.id
             return {'message': 'log in with success'}
 
@@ -95,13 +97,13 @@ api.add_resource(PasswordForgotMethodsPa, '/password/<string:id>')
 api.add_resource(OccurrenceMethods, '/occurrence')
 api.add_resource(OccurrenceMethodsPa, '/occurrence/<string:id>')
 
+# -----------LOGIN------------------
+api.add_resource(LoginAdmin, '/loginadmin')
 
 if __name__ == '__main__':
     app.run(debug=True)
 
 
-# -----------LOGIN------------------
-api.add_resource(LoginAdmin, '/loginadmin')
 # api.add_resource(LoginAdmin, '/loginadmin')
 # api.add_resource(LoginCitizen, '/logincitizen')
 # api.add_resource(LogoutUser, '/logout')

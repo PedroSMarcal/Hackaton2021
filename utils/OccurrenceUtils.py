@@ -30,56 +30,28 @@ def getEspecificOccurrence(id):
     return response
 
 def constructOccurrence(data):
-    try:
         # if data['occurrence_status'] == 0 or data['occurrence_status'] == 2:
         #     pass
 
-        # new_date = data['date']
-        # date = datetime.date(date)
-        occurrence = Occurrence(
-            date = data['date'], 
-            hour = data['hour'],
-            obs = data['obs'], 
-            proper = data['proper'], 
-            cellphone = data['cellphone'], 
-            street = data['street'],
-            number = data['number'],
-            latitude = data['latitude'],
-            longitude = data['longitude'],
-            occurrenceNumber = data['occurrenceNumber'],
-            status_ocorrence = data['status_ocorrence'],
-            citizenOcurrence = data['citizenOcurrence'],
-            problem = data['problem']
-        )
-        occurrence.save()
-        response = {'message': 'created with success'}
-    except:
-        response = {'message': 'canot create the occurrence'}
-    return response
-
-    # class Occurrence(Base):
-    # __tablename__ = 'occurrence'
-    # id = Column(Integer(), primary_key = True)
-    # date = Column(String(length = 10))
-    # hour = Column(String(length = 5))
-    # viewed = Column(Boolean(), default = False)
-    # auto_number = Column(Integer(), nullable = True)
-    # obs = Column(String(length = 250), nullable = True)
-    # proper = Column(String(length = 80), nullable = True)
-    # cellphone = Column(String(length = 11), unique = True)
-    # active = Column(Boolean(), default=True)
-    # number = Column(String(length = 4), nullable=False)
-    # street = Column(String(length = 80), nullable=False)
-    # latitude = Column(Float(), nullable=True)
-    # longitude = Column(Float(), nullable=True)
-    # occurrenceNumber = Column(String(length = 9), nullable = False)
-
-    # occurrenceType = Column(Integer(), ForeignKey('problem_types.id'), nullable=True)
-    # occurrence_status = Column(Integer(), ForeignKey('status.id'), nullable=False)
-    # citizen_id = Column(Integer(), ForeignKey('citizen.id'), nullable=False)
+    occurrence = Occurrence(
+        date = data['date'], 
+        hour = data['hour'],
+        obs = data['obs'], 
+        proper = data['proper'], 
+        cellphone = data['cellphone'], 
+        street = data['street'],
+        number = data['number'],
+        latitude = data['latitude'],
+        longitude = data['longitude'],
+        occurrenceNumber = data['occurrenceNumber'],
+        status_ocorrence = data['status_ocorrence'],
+        citizenOcurrence = data['citizenOcurrence'],
+        problem = data['problem']
+    )
     
-    # occurrence_photos = relationship('Photos', backref='photos', lazy=True)
+    occurrence.save()
 
+    return response
 
 def putOccurrence(id, data):
     try:

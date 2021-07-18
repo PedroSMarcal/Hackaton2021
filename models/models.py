@@ -62,8 +62,8 @@ class Citizen(Base):
     cpf = Column(String(length = 11), unique=True)
     whatsapp = Column(String(length = 11), unique=True)
     active = Column(Boolean(), default=False)
-    citizenOccurrence = relationship('Occurrence', backref="citizenOcurrence")
     passwordforgot = relationship('Password_Forgot', backref="citizenPassword", lazy=True)
+    citizenOccurrence = relationship('Occurrence', backref="citizen_ocurrence", lazy=True)
 
     # @property
     # def is_authenticated(self):
@@ -131,9 +131,9 @@ class Occurrence(Base):
     longitude = Column(Float(), nullable=True)
     occurrenceNumber = Column(String(length = 9), nullable = True)
 
-    occurrenceType = Column(Integer(), ForeignKey('problem_types.id'), nullable=True)
-    occurrence_status = Column(Integer(), ForeignKey('status.id'), nullable=False)
-    citizen_id = Column(Integer(), ForeignKey('citizen.id'), nullable=False)
+    problem = Column(Integer(), ForeignKey('problem_types.id'), nullable=True)
+    status_ocorrence = Column(Integer(), ForeignKey('status.id'), nullable=False)
+    citizenOcurrence = Column(Integer(), ForeignKey('citizen.id'), nullable=False)
     
     occurrence_photos = relationship('Photos', backref='photos', lazy=True)
 
@@ -153,9 +153,7 @@ class ProblemTypes(Base):
     __tablename__ = 'problem_types'
     id = Column(Integer, primary_key=True)
     description = Column(String(length = 45))
-    problemtype = relationship('Occurrence', backref='problem', lazy=True)
-
-
+    problemtype = relationship('Occurrence', backref='problem_occurrence', lazy=True)
 
     def __repr__(self):
         return f'description: {self.description}, occurrenceType: {self.occurrenceType}'
@@ -173,7 +171,7 @@ class Status(Base):
     __tablename__ = 'status'
     id = Column(Integer, primary_key = True)
     description = Column(String(length = 60), nullable = False)
-    occurrence_status = relationship('Occurrence', backref='status_ocorrence', lazy=True)
+    occurrence_status = relationship('Occurrence', backref='statusOcorrence', lazy=True)
 
     def __repr__(self):
         return f'description: {self.description}, occurrence_status: {self.occurrence_status}'

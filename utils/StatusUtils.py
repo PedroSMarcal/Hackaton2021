@@ -5,7 +5,7 @@ def getAllStatus():
         status = Status.query.all()
         response = [{'id': i.id, 'description': i.description} for i in status]
     except:
-        reponse = {'message': 'don not exist any status to occurrence'}
+        response = {'message': 'don not exist any status to occurrence'}
     return response
 
 def getSpecificStatus(id):

@@ -7,8 +7,11 @@ class StatusMethods(Resource):
         return getAllStatus()
 
     def post(self):
-        data = request.json
-        response = constructStatus(data)
+        try: 
+            data = request.json
+            response = constructStatus(data)
+        except:
+            response = {'save'}
         return response
 
 class StatusMethodsPa(Resource):

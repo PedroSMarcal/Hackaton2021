@@ -41,7 +41,11 @@ def before_request():
                 user = admin.id
             g.user = user
     except:
-        return {'message': 'could not try'}
+        if 'user_id' in session:
+            citizen = Citizen.query.filter_by(id=session['user_id']).first()
+            if session['user_id'] in citizen:
+                user = citizen.id
+            g.user = user
 
 class LoginAdmin(Resource):
     def post(self):
@@ -56,11 +60,6 @@ class LoginAdmin(Resource):
         else:
             return {'message': 'conot log in'}
 
-class profile(Resource):
-    def get(self):
-        if not g.user:
-            return {'message': 'try to login'}
-
 class LoginCitizen(Resource):
     def post(self):
         session.pop('user_id', None)
@@ -73,6 +72,12 @@ class LoginCitizen(Resource):
             return {'message': 'log in with success'}
         else:
             return {'message': 'conot log in'}
+
+class profile(Resource):
+    def get(self):
+        if not g.user:
+            return {'message': 'try to login'}
+
 
 def encrypt_string(hash_string):
     sha_signature = \

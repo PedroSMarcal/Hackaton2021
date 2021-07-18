@@ -1,9 +1,10 @@
-from flask import Flask, request
+from flask import Flask, request, session, g
 from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+import os
+from models.models import Admin, Citizen
 
-from routes.ImagesRoutes import ImagesUpload
+from routes.ImagesRoutes import ImagesUpload, ImagesUploadPa
 from routes.adminRoutes import AdminMethods, AdminMethodsPa
 from routes.statusRoute import StatusMethods, StatusMethodsPa
 from routes.problemTypeRoute import ProblemTypesMethods, ProblemTypesMethodsPa
@@ -11,69 +12,65 @@ from routes.passwordForgotRoutes import PasswordForgotMethods, PasswordForgotMet
 from routes.citizensRoutes import CitizenMethods, CitizenMethodsPa
 from routes.addressRoutes import AddresMethodsPa, AddressMethds
 from routes.occurrenceRoutes import OccurrenceMethods, OccurrenceMethodsPa
-from routes.loginRoutes import LoginAdmin, LoginCitizen, LogoutUser
+
+# from routes.loginRoutes import LoginAdmin, LoginCitizen, LogoutUser
 
 # from flask_mail import Mail
 
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+__author__ = 'pedro marçal'
 
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 app = Flask(__name__)
-app.secret_key = 'somesecretkeythatonlyishouldknow'
+app.secret_key = os.urandom(24)
+# APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+
 # DataBase Configuration
-app.config['UPLOAD_FOLDER'] = 'static.images'
+# app.config['UPLOAD_FOLDER'] = 'static.images'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///development.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-api = Api(app)
+@app.before_request
+def before_request():
+    g.user = None
 
-lm = LoginManager()
-lm.init_app(app)
-
-
-
-class LoginCitizen(Resource):
-    def post(self):
-        form = request.json
-        user = Citizen.query.filter_by(email=form['email']).first()
-        hashed_passwords = encrypt_string(form['password'])
-        if user and user.password == hashed_passwords and user.active == False:
-            login_user(user)
-            response = {'message': 'valid user'}
-        else:
-            response = {'message': 'invalid user'}
-        return response
+    if 'user_id' in session:
+        admin = Admin.query.all()
+        if session['user_id'] in admin:
+            user = admin.id
+        g.user = user
 
 class LoginAdmin(Resource):
     def post(self):
-        form = request.json
-        user = Admin.query.filter_by(email=form['email']).first()
-        hashed_passwords = encrypt_string(form['password'])
-        if user and user.password == hashed_passwords:
-            login_user(user)
-            response = {'message': 'valid user'}
+        session.pop('user_id', None)
+
+        data = request.json
+        
+        admin = Admin.query.filter_by(email=email).first()
+        if admin and user1.password == encrypt_string(password):
+            session['user_id'] = admin.id
+            return {'message': 'log in with success'}
+
         else:
-            response = {'message': 'invalid user'}
-        return response
+            return {'message': 'conot log in'}
 
-class LogoutUser(Resource):
+class profile(Resource):
     def get(self):
-        try:
-            logout_user()
-            response = {'messge': 'Logout with success'}
-        except:
-            response = {'message': 'No user to logout'} 
-        return response
-
+        if not g.user:
+            return {'message': 'try to login'}
 
 def encrypt_string(hash_string):
     sha_signature = \
         hashlib.sha256(hash_string.encode()).hexdigest()
     return sha_signature
 
+#Adding routes to api
+api = Api(app)
+
 # -----------IMAGES-----------
 api.add_resource(ImagesUpload, '/uploader')
+api.add_resource(ImagesUploadPa, '/uploader/<id>')
 
 #------------ADMIN-----------
 api.add_resource(AdminMethods, '/admin')
@@ -103,10 +100,14 @@ api.add_resource(AddresMethodsPa, '/address/<string:id>')
 api.add_resource(OccurrenceMethods, '/occurrence')
 api.add_resource(OccurrenceMethodsPa, '/occurrence/<string:id>')
 
-#-----------LOGIN------------------
-api.add_resource(LoginAdmin, '/loginadmin')
-api.add_resource(LoginCitizen, '/logincitizen')
-api.add_resource(LogoutUser, '/logout')
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+# -----------LOGIN------------------
+api.add_resource(LoginAdmin, '/loginadmin')
+# api.add_resource(LoginAdmin, '/loginadmin')
+# api.add_resource(LoginCitizen, '/logincitizen')
+# api.add_resource(LogoutUser, '/logout')
+

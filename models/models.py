@@ -123,7 +123,7 @@ class Occurrence(Base):
     auto_number = Column(Integer(), nullable = True)
     obs = Column(String(length = 250), nullable = True)
     proper = Column(String(length = 80), nullable = True)
-    cellphone = Column(String(length = 11), unique = True)
+    cellphone = Column(String(length = 11))
     active = Column(Boolean(), default=True)
     number = Column(String(length = 4), nullable=False)
     street = Column(String(length = 80), nullable=False)

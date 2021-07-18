@@ -30,27 +30,32 @@ def getEspecificOccurrence(id):
     return response
 
 def constructOccurrence(data):
+    try:
         # if data['occurrence_status'] == 0 or data['occurrence_status'] == 2:
         #     pass
 
-    occurrence = Occurrence(
-        date = data['date'], 
-        hour = data['hour'],
-        obs = data['obs'], 
-        proper = data['proper'], 
-        cellphone = data['cellphone'], 
-        street = data['street'],
-        number = data['number'],
-        latitude = data['latitude'],
-        longitude = data['longitude'],
-        occurrenceNumber = data['occurrenceNumber'],
-        status_ocorrence = data['status_ocorrence'],
-        citizenOcurrence = data['citizenOcurrence'],
-        problem = data['problem']
-    )
-    
-    occurrence.save()
-
+        # new_date = data['date']
+        # date = datetime.date(date)
+        occurrence = Occurrence(
+            date = data['date'], 
+            hour = data['hour'],
+            obs = data['obs'], 
+            proper = data['proper'], 
+            cellphone = data['cellphone'], 
+            street = data['street'],
+            number = data['number'],
+            latitude = data['latitude'],
+            longitude = data['longitude'],
+            occurrenceNumber = data['occurrenceNumber'],
+            status_ocorrence = data['status_ocorrence'],
+            citizenOcurrence = data['citizenOcurrence'],
+            problem = data['problem']
+        )
+        
+        occurrence.save()
+        response = {'message': 'created with success'}
+    except:
+        response = {'message': 'canot create the occurrence'}
     return response
 
 def putOccurrence(id, data):

@@ -42,6 +42,7 @@ def before_request():
             g.user = user
     except:
         return {'message': 'could not try'}
+
 class LoginAdmin(Resource):
     def post(self):
         session.pop('user_id', None)
@@ -49,10 +50,9 @@ class LoginAdmin(Resource):
         data = request.json
         
         admin = Admin.query.filter_by(email=data['email']).first()
-        if admin and admin.password == encrypt_string(data['']):
+        if admin and admin.password == encrypt_string(data['password']):
             session['user_id'] = admin.id
             return {'message': 'log in with success'}
-
         else:
             return {'message': 'conot log in'}
 
@@ -60,6 +60,19 @@ class profile(Resource):
     def get(self):
         if not g.user:
             return {'message': 'try to login'}
+
+class LoginCitizen(Resource):
+    def post(self):
+        session.pop('user_id', None)
+
+        data = request.json
+        
+        citizen = Citizen.query.filter_by(email=data['email']).first()
+        if citizen and citizen.password == encrypt_string(data['password']):
+            session['user_id'] = citizen.id
+            return {'message': 'log in with success'}
+        else:
+            return {'message': 'conot log in'}
 
 def encrypt_string(hash_string):
     sha_signature = \

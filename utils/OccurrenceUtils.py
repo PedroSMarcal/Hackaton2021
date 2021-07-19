@@ -9,14 +9,7 @@ def getEspecificOccurrence(id):
         occurrence.viewed()
         response = {
             'id': occurrence.id,
-            'date': occurrence.date, 
-            'viewed': occurrence.viewed, 
-            'auto_number': occurrence.auto_number, 
-            'obs': occurrence.obs, 
-            'proper': occurrence.proper, 
-            'cellphone': occurrence.cellphone, 
-            'status_ocorrence': occurrence.occurrence_status,
-            'passwordAdmin': occurrence.admin_id
+            'date': occurrence.date, 'viewed': occurrence.viewed, 'auto_number': occurrence.auto_number, 'obs': occurrence.obs, 'proper': occurrence.proper, 'cellphone': occurrence.cellphone, 'active': occurrence.active, 'latitude': occurrence.latitude, 'longitude': occurrence.longitude, 'occurrenceNumber': occurrence.occurrenceNumber, 'status_ocorrence': occurrence.status_ocorrence, 'citizenOcurrence': occurrence.citizenOcurrence, 'problem': occurrence.problem
         }
     except:
         response = {'message': 'something got wrong'}
@@ -50,7 +43,7 @@ def constructOccurrence(data):
 def getAllOccurrence():
     try:
         occurrence = Occurrence.query.all()
-        response = [{'date': i.date, 'viewed': i.viewed, 'auto_number': i.auto_number, 'obs': i.obs, 'proper': i.proper, 'cellphone': i.cellphone, 'active': i.active, 'latitude': i.latitude, 'longitude': i.longitude, 'occurrenceNumber': i.occurrenceNumber, 'status_ocorrence': i.status_ocorrence, 'citizenOcurrence': i.citizenOcurrence, 'problem': i.problem} for i in occurrence]
+        response = [{'id': i.id, 'date': i.date, 'viewed': i.viewed, 'auto_number': i.auto_number, 'obs': i.obs, 'proper': i.proper, 'cellphone': i.cellphone, 'active': i.active, 'latitude': i.latitude, 'longitude': i.longitude, 'occurrenceNumber': i.occurrenceNumber, 'status_ocorrence': i.status_ocorrence, 'citizenOcurrence': i.citizenOcurrence, 'problem': i.problem} for i in occurrence]
     except:
         response = {'message': 'Somethin got wrong'}
     return response

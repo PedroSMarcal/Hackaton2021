@@ -121,8 +121,8 @@ api.add_resource(OccurrenceMethods, '/occurrence')
 api.add_resource(OccurrenceMethodsPa, '/occurrence/<string:id>')
 
 # -----------LOGIN------------------
-api.add_resource(LoginAdmin, '/loginadmin')
-api.add_resource(Logout, '/logout')
+# api.add_resource(LoginAdmin, '/loginadmin')
+# api.add_resource(Logout, '/logout')
 
 #-----------VALUE EMAIL-------------
 api.add_resource(ValueEmailAdmin, '/adminvalue/<id>')

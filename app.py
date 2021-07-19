@@ -2,6 +2,7 @@ from flask import Flask, request, session, g
 from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 import os
+from flask_cors import CORS
 from models.models import Admin, Citizen
 import hashlib
 
@@ -22,6 +23,7 @@ __author__ = 'pedro marçal'
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 app = Flask(__name__)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 app.secret_key = os.urandom(24)
 # APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 

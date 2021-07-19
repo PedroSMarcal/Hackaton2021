@@ -1,6 +1,6 @@
-from flask import request
+from flask import request, abort
 from flask_restful import Resource
-from utils.AdminUtils import getAdmin, deleteAdmin, getespecificAdmin, constructAdmin
+from utils.AdminUtils import getAdmin, deleteAdmin, getespecificAdmin, constructAdmin, alterAdmin
 
 class AdminMethods(Resource):
     def get(self):
@@ -27,4 +27,11 @@ class AdminMethodsPa(Resource):
             response = {'message': 'could not complete the delete'}    
         return response
     
+    def put(self, email):
+        try: 
+            data = request.json
+            reponse = alterAdmin(email, data)
+        except:
+            abort(400)
+        return response
     

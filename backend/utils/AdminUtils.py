@@ -10,6 +10,20 @@ def getAdmin():
 
     return response
 
+def alterAdmin(email, data):
+    try:
+        admin = Admin.query.filter_by(email=email).first()
+        if 'password' in data:
+            admin.password = data['password']
+        
+        admin.save()       
+        response = {'message': "change with success"}
+    except:
+        response = {
+            'message': 'Pessoa not found'
+        }
+    return response
+
 def getespecificAdmin(id):
     try:
         Admin.load_user(id)

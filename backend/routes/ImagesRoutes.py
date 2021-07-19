@@ -30,9 +30,6 @@ class ImagesUpload(Resource):
 
 class ImagesUploadPa(Resource):
     def get(self, id):      
-        # get the last occurrence
-        # obj = session.query(ObjectRes).order_by(ObjectRes.id.desc()).first()
-
         data = request.json
         f = request.files['file']
         response = contructImages(f, data)

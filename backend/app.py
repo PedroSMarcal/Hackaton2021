@@ -23,7 +23,7 @@ __author__ = 'pedro marçal'
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 app = Flask(__name__)
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app, resources=r'/api/*')
 app.secret_key = os.urandom(24)
 # APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 

@@ -1,6 +1,7 @@
 from models.models import Citizen
 from validate_email import validate_email
 import hashlib
+from flask import abort
 
 def getCitizen():
     citizen = Citizen.query.all()
@@ -15,17 +16,15 @@ def getespecificCitizen(id):
     else:
         return {'mensagem': 'Do not find any user'}
 
-def alterCitizen(id, data):
+def alterCitizen(email, data):
     try:
-        citizen = Citizen.query.filter_by(id=id).first()
-        if 'whatsapp' in data:
-            citizen.whatsapp = data['whatsapp']
+        citizen = Citizen.query.filter_by(email=email).first()
+        if 'email' in data:
+            citizen.email = data['email']
         citizen.save()       
-        response = {'message': "change with success"}
+        response = {'message': 200}
     except:
-        response = {
-            'message': 'Pessoa not found'
-        }
+        abort(400)
     return response
 
 

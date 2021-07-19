@@ -23,7 +23,7 @@ def emailsend():
     <body>
         <p>Hi,<br>
         How are you?<br>
-        <a href="localhost://validateEmail">Real Python</a> 
+        <a href="localhost:5000/validateEmail">Real Python</a> 
         validar email!
         </p>
     </body>

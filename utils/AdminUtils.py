@@ -1,6 +1,8 @@
 from models.models import Admin
 from validate_email import validate_email
 import hashlib
+from routes.emailsend import emailsend
+
 
 def getAdmin():
     admin = Admin.query.all()
@@ -41,6 +43,10 @@ def constructAdmin(data):
                 password=hash_password
             )
             new_data.save()
+
+            obj = Admin.query(ObjectRes).order_by(ObjectRes.id.desc()).first()
+            emailsend(obj.id)
+
             response = {'message': 'Create with Success'}
         except:
             response = {'message': 'Could not create the user'}

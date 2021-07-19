@@ -12,7 +12,8 @@ from routes.problemTypeRoute import ProblemTypesMethods, ProblemTypesMethodsPa
 from routes.passwordForgotRoutes import PasswordForgotMethods, PasswordForgotMethodsPa
 from routes.citizensRoutes import CitizenMethods, CitizenMethodsPa
 from routes.occurrenceRoutes import OccurrenceMethods, OccurrenceMethodsPa
-from routes.valueUser import ValueEmailAdmin
+from routes.valueUser import ValueEmailAdmin, ValueEmailCitizen
+
 # from routes.loginRoutes import LoginAdmin, LoginCitizen, LogoutUser
 
 # from flask_mail import Mail
@@ -93,7 +94,7 @@ api = Api(app)
 
 # -----------IMAGES-----------
 api.add_resource(ImagesUpload, '/uploader')
-api.add_resource(ImagesUploadPa, '/uploader/<id>')
+# api.add_resource(ImagesUploadPa, '/uploader/<id>')
 
 #------------ADMIN-----------
 api.add_resource(AdminMethods, '/admin')
@@ -125,6 +126,7 @@ api.add_resource(Logout, '/logout')
 
 #-----------VALUE EMAIL-------------
 api.add_resource(ValueEmailAdmin, '/adminvalue/<id>')
+api.add_resource(ValueEmailCitizen, '/citizenvalue/<id>')
 
 if __name__ == '__main__':
     app.run(debug=True)

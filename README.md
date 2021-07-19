@@ -80,13 +80,21 @@ Obs: semelhante ao de cima
 ROTA PARA O OCURRENCE POST/GET, GET/DELETE/PUT (Parametros) localhost://occurrence/
 
 {
-    "date": "2021/03/01", 
-    "obs": "varia do caso", 
-    "proper": "varia pela ocorrencia", 
-    "cellphone": 16993933505, 
-    "occurrence_status": 1,
-    "admin_id": 1,
-    "occurrenceType": 1
+    "date": "1",
+    "hour": "1",
+    "viewed": false,
+    "auto_number": 1,
+    "obs": "a",
+    "proper": "a",
+    "cellphone": "1",
+    "active": true,
+    "number": "12",
+    "street": "1231",
+    "latitude": 1,
+    "longitude": 1,
+    "occurrenceNumber": "1",
+    "problem": 1,
+    "status_ocorrence": 1,
+    "citizenOcurrence": 1
 }
-
 Obs: semelhante ao de cima

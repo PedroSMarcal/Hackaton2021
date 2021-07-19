@@ -1,21 +1,24 @@
 from models.models import Photos, Occurrence
 from flask import send_file, send_from_directory, safe_join, abort
-
 import os
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
+def geter():
+    obj = Occurrence.query.order_by(Occurrence.id.desc()).first()
+    return obj.id
+
 def contructImages(f):
-    obj = Occurrence.query(ObjectRes).order_by(ObjectRes.id.desc()).first()
     try:
-        new_Photo = Photos({
-            "name": f.filename, 
-            "occurrence_id": obj.id
-        })
+        obj = Occurrence.query.order_by(Occurrence.id.desc()).first()
+        new_Photo = Photos(
+            name = f.filename, 
+            occurrence_id = obj.id
+        )
         new_Photo.save()
         f.save(secure_filename(f.filename))
     except:
-        return  abort(500)
+        return abort(500)
     response = {'message': 'upload complete'}
 
 def getImages(id):

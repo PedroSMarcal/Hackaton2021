@@ -1,5 +1,32 @@
 from models.models import Occurrence
+from flask import send_file, send_from_directory, safe_join, abort, abort
 import datetime
+from utils.ImagesUtils import contructImages
+
+def constructOccurrence(data):
+    try:
+        occurrence = Occurrence(
+            date = data['date'], 
+            hour = data['hour'],
+            obs = data['obs'], 
+            proper = data['proper'], 
+            cellphone = data['cellphone'], 
+            street = data['street'],
+            number = data['number'],
+            latitude = data['latitude'],
+            longitude = data['longitude'],
+            occurrenceNumber = data['occurrenceNumber'],
+            status_ocorrence = data['status_ocorrence'],
+            citizenOcurrence = data['citizenOcurrence'],
+            problem = data['problem']
+        )
+   
+        occurrence.save()
+
+        response = {'message': 'created with success'}
+    except:
+        response = abort(400)
+    return response
 
 def getAllOccurrence():
     try:
@@ -29,34 +56,6 @@ def getEspecificOccurrence(id):
         response = {'message': 'something got wrong'}
     return response
 
-def constructOccurrence(data):
-    try:
-        # if data['occurrence_status'] == 0 or data['occurrence_status'] == 2:
-        #     pass
-
-        # new_date = data['date']
-        # date = datetime.date(date)
-        occurrence = Occurrence(
-            date = data['date'], 
-            hour = data['hour'],
-            obs = data['obs'], 
-            proper = data['proper'], 
-            cellphone = data['cellphone'], 
-            street = data['street'],
-            number = data['number'],
-            latitude = data['latitude'],
-            longitude = data['longitude'],
-            occurrenceNumber = data['occurrenceNumber'],
-            status_ocorrence = data['status_ocorrence'],
-            citizenOcurrence = data['citizenOcurrence'],
-            problem = data['problem']
-        )
-        
-        occurrence.save()
-        response = {'message': 'created with success'}
-    except:
-        response = {'message': 'canot create the occurrence'}
-    return response
 
 def putOccurrence(id, data):
     try:

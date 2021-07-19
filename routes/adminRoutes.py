@@ -1,6 +1,6 @@
 from flask import request
 from flask_restful import Resource
-from utils.AdminUtils import getAdmin, deleteAdmin, getespecificAdmin, constructAdmin, emailSendValued
+from utils.AdminUtils import getAdmin, deleteAdmin, getespecificAdmin, constructAdmin
 
 class AdminMethods(Resource):
     def get(self):

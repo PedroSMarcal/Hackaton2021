@@ -8,14 +8,31 @@
 </head>
 
 <body>
-    <!-- <form action="http://localhost:5000/loginadmin" method="POST" enctype="multipart/form-data">
-        <input type="text" name="email">
-        <input type="password" name="password">
-        <input type="submit">
-    </form> -->
+    <form action="http://localhost:5000/occurrence" method="POST" enctype="multipart/form-data">
+        <input type="text" name="date">
 
+        <input type="text" name="hour">
 
-    <form action="http://localhost:5000/uploader" method="POST" enctype="multipart/form-data">
+        <input type="number" name="auto_number">
+        
+        <input type="text" name="obs">
+
+        <input type="text" name="proper">
+
+        <input type="text" name="cellphone" maxlength="11">
+
+        <input type="number" name="latitude">
+
+        <input type="number" name="longitude">
+
+        <input type="number" name="occurrenceNumber"> 
+
+        <input type="number" name="problem"> 
+
+        <input type="number" name="status_ocorrence"> 
+
+        <input type="number" name="citizenOcurrence"> 
+        
         <input type="file" name="file" accept="image/*" multiple/>
         <input type="submit"/>
     </form>

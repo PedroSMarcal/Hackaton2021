@@ -2,8 +2,9 @@ import smtplib, ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-def emailsend():
-    sender_email = "renatasilvaphs@gmail.com"
+
+def emailsend(email, id):
+    sender_email = "hackaton2021facef@gmail.com"
     receiver_email = "pedro.h.silva.marcal@gmail.com"
     password = input("Type your password and press enter:")
 
@@ -47,4 +48,5 @@ def emailsend():
             sender_email, receiver_email, message.as_string()
         )
 
-emailsend()
+# print(email, id)
+# emailsend(email, id)

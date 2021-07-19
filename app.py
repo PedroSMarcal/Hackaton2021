@@ -12,7 +12,7 @@ from routes.problemTypeRoute import ProblemTypesMethods, ProblemTypesMethodsPa
 from routes.passwordForgotRoutes import PasswordForgotMethods, PasswordForgotMethodsPa
 from routes.citizensRoutes import CitizenMethods, CitizenMethodsPa
 from routes.occurrenceRoutes import OccurrenceMethods, OccurrenceMethodsPa
-
+from routes.valueUser import ValueEmailAdmin
 # from routes.loginRoutes import LoginAdmin, LoginCitizen, LogoutUser
 
 # from flask_mail import Mail
@@ -122,6 +122,9 @@ api.add_resource(OccurrenceMethodsPa, '/occurrence/<string:id>')
 # -----------LOGIN------------------
 api.add_resource(LoginAdmin, '/loginadmin')
 api.add_resource(Logout, '/logout')
+
+#-----------VALUE EMAIL-------------
+api.add_resource(ValueEmailAdmin, '/adminvalue/<id>')
 
 if __name__ == '__main__':
     app.run(debug=True)

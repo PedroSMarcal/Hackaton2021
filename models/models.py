@@ -22,26 +22,13 @@ class Admin(Base):
     active = Column(Boolean(), default=False)
     admin_password = relationship('Password_Forgot', backref='passwordAdmin', lazy=True)
 
-    # @property
-    # def is_authenticated(self):
-    #     return True
-
-    # @property
-    # def is_active(self):
-    #     return False
-    
-    # @property
-    # def is_anonymous(self):
-    #     return True
-
-    # def load_user(id):
-    #     return Admin.query.filter_by(id=id).first()
-
-    # def get_id(self):
-    #     return str(self.id)
-
     def __repr__(self):
         return f'Numero de Chapa: {self.chapaNumber}, \nEmail: {self.email}, \nPassword: {self.password}'
+
+    def active(self):
+        self.active = True
+        db_session.add(self)
+        db_session.commit()
 
     def save(self):
         db_session.add(self)
@@ -83,6 +70,11 @@ class Citizen(Base):
 
     def __repr__(self):
         return f'Nome Completo: {self.fullname}, \nEmail: {self.email}, \nPassword: {self.password}, \nCPF: {self.cpf}, \nWhatsapp: {self.whatsapp}'
+
+    def active(self):
+        self.active = True
+        db_session.add(self)
+        db_session.commit()
 
     def save(self):
         db_session.add(self)

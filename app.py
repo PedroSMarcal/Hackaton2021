@@ -32,56 +32,56 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-@app.before_request
-def before_request():
-    g.user = None
-    try:
-        if 'user_id' in session:
-            admin = Admin.query.filter_by(id=session['user_id']).first()
-            if session['user_id'] in admin:
-                user = admin.id
-            g.user = user
-    except:
-        if 'user_id' in session:
-            citizen = Citizen.query.filter_by(id=session['user_id']).first()
-            if session['user_id'] in citizen:
-                user = citizen.id
-            g.user = user
+# @app.before_request
+# def before_request():
+#     g.user = None
+#     try:
+#         if 'user_id' in session:
+#             admin = Admin.query.filter_by(id=session['user_id']).first()
+#             if session['user_id'] in admin:
+#                 user = admin.id
+#             g.user = user
+#     except:
+#         if 'user_id' in session:
+#             citizen = Citizen.query.filter_by(id=session['user_id']).first()
+#             if session['user_id'] in citizen:
+#                 user = citizen.id
+#             g.user = user
 
-class LoginAdmin(Resource):
-    def post(self):
-        session.pop('user_id', None)
+# class LoginAdmin(Resource):
+#     def post(self):
+#         session.pop('user_id', None)
 
-        data = request.json
+#         data = request.json
         
-        admin = Admin.query.filter_by(email=data['email']).first()
-        if admin and admin.password == encrypt_string(data['password']):
-            session['user_id'] = admin.id
-            return {'message': 'log in with success'}
-        else:
-            return {'message': 'conot log in'}
+#         admin = Admin.query.filter_by(email=data['email']).first()
+#         if admin and admin.password == encrypt_string(data['password']):
+#             session['user_id'] = admin.id
+#             return {'message': 'log in with success'}
+#         else:
+#             return {'message': 'conot log in'}
 
-class LoginCitizen(Resource):
-    def post(self):
-        session.pop('user_id', None)
+# class LoginCitizen(Resource):
+#     def post(self):
+#         session.pop('user_id', None)
 
-        data = request.json
+#         data = request.json
         
-        citizen = Citizen.query.filter_by(email=data['email']).first()
-        if citizen and citizen.password == encrypt_string(data['password']):
-            session['user_id'] = citizen.id
-            return {'message': 'log in with success'}
-        else:
-            return {'message': 'conot log in'}
+#         citizen = Citizen.query.filter_by(email=data['email']).first()
+#         if citizen and citizen.password == encrypt_string(data['password']):
+#             session['user_id'] = citizen.id
+#             return {'message': 'log in with success'}
+#         else:
+#             return {'message': 'conot log in'}
 
-class Logout(Resource):
-    def get(self):
-        session.pop('user_id', None)
+# class Logout(Resource):
+#     def get(self):
+#         session.pop('user_id', None)
 
-class profile(Resource):
-    def get(self):
-        if not g.user:
-            return {'message': 'try to login'}
+# class profile(Resource):
+#     def get(self):
+#         if not g.user:
+#             return {'message': 'try to login'}
 
 
 def encrypt_string(hash_string):

@@ -97,4 +97,5 @@ ROTA PARA O OCURRENCE POST/GET, GET/DELETE/PUT (Parametros) localhost://occurren
     "status_ocorrence": 1,
     "citizenOcurrence": 1
 }
+
 Obs: semelhante ao de cima

@@ -50,7 +50,7 @@ def constructOccurrence(data):
 def getAllOccurrence():
     try:
         occurrence = Occurrence.query.all()
-        response = [{'date': i.date, 'viewed': i.viewed, 'auto_number': i.auto_number, 'obs': i.obs, 'proper': i.proper, 'cellphone': i.cellphone, 'active': i.active, 'latitude': i.latitude, 'longitude': i.longitude, 'occurrenceNumber': i.occurrenceNumber.description, 'status_ocorrence': i.status_ocorrence.description, 'citizenOcurrence': i.citizenOcurrence, 'problem': i.problem} for i in occurrence]
+        response = [{'date': i.date, 'viewed': i.viewed, 'auto_number': i.auto_number, 'obs': i.obs, 'proper': i.proper, 'cellphone': i.cellphone, 'active': i.active, 'latitude': i.latitude, 'longitude': i.longitude, 'occurrenceNumber': i.occurrenceNumber, 'status_ocorrence': i.status_ocorrence, 'citizenOcurrence': i.citizenOcurrence, 'problem': i.problem} for i in occurrence]
     except:
         response = {'message': 'Somethin got wrong'}
     return response

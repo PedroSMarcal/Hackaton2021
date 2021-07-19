@@ -25,7 +25,7 @@ class OccurrenceMethods(Resource):
             for file in request.files.getlist("file"):
                 filename = file.filename
                 try:
-                    response = contructImages(f)
+                    response = contructImages(file)
                 except:
                    abort(400)      
 
